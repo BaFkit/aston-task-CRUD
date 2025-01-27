@@ -13,12 +13,16 @@ public class UserRepository {
 
     public List<User> findAllUser() throws SQLException {
         List<User> users = new ArrayList<>();
-        PreparedStatement preparedStatement = UtilsDB.getConnection().prepareStatement("SELECT * FROM users");
-        ResultSet rs = preparedStatement.executeQuery();
+        String query = "SELECT * FROM users";
+        ResultSet rs = getResult(query);
         while (rs.next()) {
             users.add(new User(rs.getLong("id"), rs.getString("username"), rs.getString("password"), rs.getString("email")));
         }
         return users;
     }
 
+    private ResultSet getResult(String query) throws SQLException {
+        PreparedStatement preparedStatement = UtilsDB.getConnection().prepareStatement(query);
+        return preparedStatement.executeQuery();
+    }
 }
