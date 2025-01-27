@@ -2,6 +2,10 @@ package ru.aston.dto;
 
 import lombok.*;
 
+/**
+ * Подготовлен Дто для отдачи на запросы.
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor

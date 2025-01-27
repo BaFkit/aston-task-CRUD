@@ -5,12 +5,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-
 import java.util.Objects;
-
-/**
- * Подготовлен Дто для отдачи на запросы.
- */
 
 @Getter
 @Setter

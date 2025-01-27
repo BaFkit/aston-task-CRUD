@@ -5,6 +5,10 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+/**
+ * Подготовлен Дто для отдачи на запросы.
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor
