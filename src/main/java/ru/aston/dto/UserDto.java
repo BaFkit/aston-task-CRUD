@@ -7,10 +7,10 @@ import lombok.*;
  */
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class UserDto {
 
     private String username;

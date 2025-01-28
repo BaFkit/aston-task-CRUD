@@ -3,6 +3,7 @@ package ru.aston.repositories;
 import ru.aston.entity.User;
 import ru.aston.utils.UtilsDB;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,18 +12,38 @@ import java.util.List;
 
 public class UserRepository {
 
+    public User findUserById(Long id) throws SQLException {
+        String query = "SELECT * FROM users WHERE id = ?";
+        try (Connection conn = UtilsDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setLong(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"));
+            }
+        }
+        return null;
+    }
+
     public List<User> findAllUser() throws SQLException {
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM users";
-        ResultSet rs = getResult(query);
-        while (rs.next()) {
-            users.add(new User(rs.getLong("id"), rs.getString("username"), rs.getString("password"), rs.getString("email")));
+        try (Connection conn = UtilsDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                users.add(new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email")));
+            }
         }
         return users;
     }
 
-    private ResultSet getResult(String query) throws SQLException {
-        PreparedStatement preparedStatement = UtilsDB.getConnection().prepareStatement(query);
-        return preparedStatement.executeQuery();
-    }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface UserService {
     List<UserDto> findAllUsers() throws SQLException;
+    UserDto findUserById(Long id) throws SQLException;
 }
