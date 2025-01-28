@@ -44,6 +44,43 @@ CREATE TABLE IF NOT EXISTS users_projects
     primary key     (user_id, projects_id)
 );
 
+CREATE TABLE IF NOT EXISTS comments
+(
+    id              INT         NOT NULL PRIMARY KEY,
+    content         TEXT        NOT NULL,
+    time_create     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
+    user_id         INT         NOT NULL REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS task_statuses
+(
+    id              INT         NOT NULL PRIMARY KEY,
+    name            VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS project_statuses
+(
+    id              INT         NOT NULL PRIMARY KEY,
+    name            VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tasks_task_statuses
+(
+    id              INT         PRIMARY KEY NOT NULL,
+    tasks_id        INT         REFERENCES tasks(id) NOT NULL,
+    task_statuses_id INT        REFERENCES task_statuses(id),
+    time_update     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS projects_project_statuses
+(
+    id              INT         PRIMARY KEY NOT NULL,
+    projects_id     INT         REFERENCES projects(id) NOT NULL,
+    project_statuses_id INT     REFERENCES project_statuses(id),
+    time_update     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
+);
+
+
 
 INSERT INTO roles (name)
 VALUES ('ROLE_WORKER'),
