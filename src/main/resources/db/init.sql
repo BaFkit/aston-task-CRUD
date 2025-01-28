@@ -80,8 +80,6 @@ CREATE TABLE IF NOT EXISTS projects_project_statuses
     time_update     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
 );
 
-
-
 INSERT INTO roles (name)
 VALUES ('ROLE_WORKER'),
        ('ROLE_CHIEF'),
