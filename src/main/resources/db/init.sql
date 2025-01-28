@@ -85,7 +85,6 @@ VALUES ('ROLE_WORKER'),
        ('ROLE_CHIEF'),
        ('ROLE_ADMIN');
 
-
 INSERT INTO users (username, password, email)
 VALUES ('Worker1', '100', 'Worker1@gmail.com'),
        ('Worker2', '100', 'Worker2@gmail.com'),
