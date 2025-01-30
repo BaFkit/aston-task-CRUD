@@ -16,9 +16,10 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        UserServiceImpl userServiceImpl = new UserServiceImpl(new UserRepository(), new UserConverter());
+        UserServiceImpl userService = new UserServiceImpl(new UserRepository(), new UserConverter());
         try {
-            System.out.println(userServiceImpl.findAllUsers());
+            System.out.println(userService.findAllUsers());
+            System.out.println(userService.findUserById(4L));
         } catch (SQLException e) {
             log.error(e);
             throw new RuntimeException(e);

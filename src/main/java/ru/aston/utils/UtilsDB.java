@@ -7,23 +7,24 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @Log4j2
-public class UtilsDB {
+public final class UtilsDB {
 
-    private static final String dbURL = "jdbc:h2:mem:aston_task_CRUD;INIT=RUNSCRIPT FROM 'classpath:db/init.sql'";
-    private static final String username = "sa";
-    private static final String Password = "";
+    private static final String URL_KEY = "db.host";
+    private static final String USERNAME_KEY = "db.username";
+    private static final String PASSWORD_KEY = "db.password";
 
-    private static Connection connection;
+    private UtilsDB() {
+    }
 
     public static Connection getConnection() {
         try {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(dbURL, username, Password);
-            }
+            return DriverManager.getConnection(
+                    PropertiesUtil.get(URL_KEY),
+                    PropertiesUtil.get(USERNAME_KEY),
+                    PropertiesUtil.get(PASSWORD_KEY));
         } catch (SQLException e) {
             log.error(e);
+            throw new RuntimeException(e);
         }
-        return connection;
     }
-
 }
