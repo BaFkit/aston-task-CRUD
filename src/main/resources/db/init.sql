@@ -1,9 +1,9 @@
 CREATE SCHEMA IF NOT EXISTS aston_task_CRUD;
-USE aston_task_CRUD;
+//USE aston_task_CRUD; // H2 не поддерживает команду USE, так как база данных создаётся в памяти (mem).
 
 CREATE TABLE IF NOT EXISTS users
 (
-    id              bigserial   primary key,
+    id              bigint auto_increment   primary key, //bigserial не поддерживается H2 — его нужно заменить на bigint auto_increment.
     username        varchar(36) not null,
     password        varchar(80) not null,
     email           varchar(50) unique
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users
 
 CREATE TABLE IF NOT EXISTS roles
 (
-    id              bigserial   primary key,
+    id              bigint auto_increment   primary key,
     name            varchar(50) not null
 );
 
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS users_roles
 
 CREATE TABLE IF NOT EXISTS tasks
 (
-    id              bigserial    primary key,
+    id              bigint auto_increment    primary key,
     title           VARCHAR(255) NOT NULL,
     status          VARCHAR(128) NOT NULL,
     description     TEXT,
@@ -33,8 +33,9 @@ CREATE TABLE IF NOT EXISTS tasks
 
 CREATE TABLE IF NOT EXISTS projects
 (
-    id              bigserial    primary key,
-    title           VARCHAR(255) NOT NULL
+    id              bigint auto_increment    primary key,
+    title           VARCHAR(255) NOT NULL,
+    status_id       INT REFERENCES project_statuses(id)
 );
 
 CREATE TABLE IF NOT EXISTS users_projects
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS comments
 (
     id              INT         NOT NULL PRIMARY KEY,
     content         TEXT        NOT NULL,
-    time_create     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
+    time_create     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL,
     user_id         INT         NOT NULL REFERENCES users(id)
 );
 
