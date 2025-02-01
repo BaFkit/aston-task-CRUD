@@ -1,9 +1,9 @@
 CREATE SCHEMA IF NOT EXISTS aston_task_CRUD;
-//USE aston_task_CRUD; // H2 не поддерживает команду USE, так как база данных создаётся в памяти (mem).
+USE aston_task_CRUD;
 
 CREATE TABLE IF NOT EXISTS users
 (
-    id              bigint auto_increment   primary key, //bigserial не поддерживается H2 — его нужно заменить на bigint auto_increment.
+    id              bigserial   primary key,
     username        varchar(36) not null,
     password        varchar(80) not null,
     email           varchar(50) unique
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users
 
 CREATE TABLE IF NOT EXISTS roles
 (
-    id              bigint auto_increment   primary key,
+    id              bigserial   primary key,
     name            varchar(50) not null
 );
 
@@ -24,18 +24,20 @@ CREATE TABLE IF NOT EXISTS users_roles
 
 CREATE TABLE IF NOT EXISTS tasks
 (
-    id              bigint auto_increment    primary key,
+    id              bigserial    primary key,
     title           VARCHAR(255) NOT NULL,
     status          VARCHAR(128) NOT NULL,
     description     TEXT,
-    user_id         bigint       not null references users (id)
+    time_end        TIMESTAMP,
+    executor_id     BIGINT       REFERENCES users(id) NOT NULL,
+    author_id       BIGINT       REFERENCES users(id) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS projects
 (
-    id              bigint auto_increment    primary key,
+    id              bigserial    primary key,
     title           VARCHAR(255) NOT NULL,
-    status_id       INT REFERENCES project_statuses(id)
+    status          VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS users_projects
@@ -47,39 +49,13 @@ CREATE TABLE IF NOT EXISTS users_projects
 
 CREATE TABLE IF NOT EXISTS comments
 (
-    id              INT         NOT NULL PRIMARY KEY,
+    id              BIGSERIAL   NOT NULL PRIMARY KEY,
     content         TEXT        NOT NULL,
-    time_create     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL,
-    user_id         INT         NOT NULL REFERENCES users(id)
+    time_create     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    user_id         BIGINT      NOT NULL REFERENCES users(id),
+    task_id         BIGINT      REFERENCES tasks(id)
 );
 
-CREATE TABLE IF NOT EXISTS task_statuses
-(
-    id              INT         NOT NULL PRIMARY KEY,
-    name            VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS project_statuses
-(
-    id              INT         NOT NULL PRIMARY KEY,
-    name            VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS tasks_task_statuses
-(
-    id              INT         PRIMARY KEY NOT NULL,
-    tasks_id        INT         REFERENCES tasks(id) NOT NULL,
-    task_statuses_id INT        REFERENCES task_statuses(id),
-    time_update     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS projects_project_statuses
-(
-    id              INT         PRIMARY KEY NOT NULL,
-    projects_id     INT         REFERENCES projects(id) NOT NULL,
-    project_statuses_id INT     REFERENCES project_statuses(id),
-    time_update     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
-);
 
 INSERT INTO roles (name)
 VALUES ('ROLE_WORKER'),
