@@ -57,7 +57,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findUserById(id);
         user.setUsername(userName);
         user.setEmail(email);
-        user.setEmail(email);
         try {
             user.setPassword(PasswordEncoder.hashWithSHA256(password));
         } catch (Exception e) {
