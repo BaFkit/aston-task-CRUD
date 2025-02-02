@@ -28,13 +28,16 @@ CREATE TABLE IF NOT EXISTS tasks
     title           VARCHAR(255) NOT NULL,
     status          VARCHAR(128) NOT NULL,
     description     TEXT,
-    user_id         bigint       not null references users (id)
+    time_end        TIMESTAMP,
+    executor_id     BIGINT       REFERENCES users(id) NOT NULL,
+    author_id       BIGINT       REFERENCES users(id) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS projects
 (
     id              bigserial    primary key,
-    title           VARCHAR(255) NOT NULL
+    title           VARCHAR(255) NOT NULL,
+    status          VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS users_projects
@@ -46,39 +49,13 @@ CREATE TABLE IF NOT EXISTS users_projects
 
 CREATE TABLE IF NOT EXISTS comments
 (
-    id              INT         NOT NULL PRIMARY KEY,
+    id              BIGSERIAL   NOT NULL PRIMARY KEY,
     content         TEXT        NOT NULL,
-    time_create     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
-    user_id         INT         NOT NULL REFERENCES users(id)
+    time_create     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    user_id         BIGINT      NOT NULL REFERENCES users(id),
+    task_id         BIGINT      REFERENCES tasks(id)
 );
 
-CREATE TABLE IF NOT EXISTS task_statuses
-(
-    id              INT         NOT NULL PRIMARY KEY,
-    name            VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS project_statuses
-(
-    id              INT         NOT NULL PRIMARY KEY,
-    name            VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS tasks_task_statuses
-(
-    id              INT         PRIMARY KEY NOT NULL,
-    tasks_id        INT         REFERENCES tasks(id) NOT NULL,
-    task_statuses_id INT        REFERENCES task_statuses(id),
-    time_update     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS projects_project_statuses
-(
-    id              INT         PRIMARY KEY NOT NULL,
-    projects_id     INT         REFERENCES projects(id) NOT NULL,
-    project_statuses_id INT     REFERENCES project_statuses(id),
-    time_update     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP AT TIMEZONE '+03' NOT NULL
-);
 
 INSERT INTO roles (name)
 VALUES ('ROLE_WORKER'),
