@@ -7,6 +7,7 @@ import ru.aston.repositories.ProjectRepository;
 import ru.aston.repositories.UserRepository;
 import ru.aston.services.impl.ProjectServiceImpl;
 import ru.aston.services.impl.UserServiceImpl;
+import ru.aston.validators.UserValidator;
 
 import java.sql.SQLException;
 
@@ -19,7 +20,7 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        UserServiceImpl userService = new UserServiceImpl(new UserRepository(), new UserConverter());
+        UserServiceImpl userService = new UserServiceImpl(new UserRepository(), new UserConverter(), new UserValidator());
         try {
             System.out.println(userService.findAllUsers());
             System.out.println(userService.findUserById(4L));

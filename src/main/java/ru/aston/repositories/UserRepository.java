@@ -46,4 +46,23 @@ public class UserRepository {
         return users;
     }
 
+    public void saveUser (User user) throws SQLException {
+        String query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
+        try (Connection conn = UtilsDB.getConnection();
+        PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.executeUpdate();
+        }
+    }
+
+    public void deleteUser (Long id) throws SQLException {
+        String query = "DELETE FROM users WHERE id = ?";
+        try (Connection conn = UtilsDB.getConnection();
+        PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        }
+    }
 }
