@@ -63,10 +63,10 @@ VALUES ('ROLE_WORKER'),
        ('ROLE_ADMIN');
 
 INSERT INTO users (username, password, email)
-VALUES ('Worker1', '100', 'Worker1@gmail.com'),
-       ('Worker2', '100', 'Worker2@gmail.com'),
-       ('Admin1', '100', 'Admin1@gmail.com'),
-       ('Chief1', '100', 'Chief1@gmail.com');
+VALUES ('Worker1', 'ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306', 'Worker1@gmail.com'),
+       ('Worker2', 'ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306', 'Worker2@gmail.com'),
+       ('Admin1', 'ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306', 'Admin1@gmail.com'),
+       ('Chief1', 'ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306', 'Chief1@gmail.com');
 
 INSERT INTO users_roles (user_id, role_id)
 VALUES (1, 1),
