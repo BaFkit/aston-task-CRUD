@@ -4,7 +4,7 @@ USE aston_task_CRUD;
 CREATE TABLE IF NOT EXISTS users
 (
     id              bigserial   primary key,
-    username        varchar(36) not null,
+    username        varchar(36) not null unique,
     password        varchar(80) not null,
     email           varchar(50) unique
 );

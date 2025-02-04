@@ -21,13 +21,8 @@ public class Main {
 
     public static void main(String[] args) {
         UserServiceImpl userService = new UserServiceImpl(new UserRepository(), new UserConverter(), new UserValidator());
-        try {
-            System.out.println(userService.findAllUsers());
-            System.out.println(userService.findUserById(4L));
-        } catch (SQLException e) {
-            log.error(e);
-            throw new RuntimeException(e);
-        }
+        System.out.println(userService.findAllUsers());
+        System.out.println(userService.findUserById(4L));
 
         ProjectServiceImpl projectService = new ProjectServiceImpl(new ProjectRepository(), new ProjectConverter());
         try {
