@@ -25,7 +25,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getTasksByExecutor(User executor) throws SQLException {
+    public List<TaskDto> getTasksByExecutor(User executor) throws SQLException { // Переделать получение по userId
         return taskRepository.getExecutorTasks(executor).stream()
                 .map(taskConverter::entityToDto)
                 .toList();
@@ -42,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void addTask(Task task) throws SQLException {
+    public void addTask(Task task) throws SQLException { // // Переделать получение по userId
         taskRepository.addTask(task);
     }
 }

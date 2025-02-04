@@ -1,18 +1,11 @@
 package ru.aston.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
-/**
- * Подготовлен Дто для отдачи на запросы.
- */
+import lombok.*;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class RoleDto {
 
     private String roleName;
