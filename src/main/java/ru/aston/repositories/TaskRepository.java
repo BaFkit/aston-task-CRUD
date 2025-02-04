@@ -1,7 +1,6 @@
 package ru.aston.repositories;
 
 import ru.aston.entity.Task;
-import ru.aston.entity.User;
 import ru.aston.utils.UtilsDB;
 
 import java.sql.Connection;
@@ -12,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskRepository {
-    //поиск задачи по исполнителю(User executor)
-    public List<Task> getExecutorTasks(User executor) throws SQLException {
+    //поиск задачи по id исполнителя
+    public List<Task> getExecutorTasks(Long userID) throws SQLException {
         List<Task> taskList = new ArrayList<>();
         try (Connection conn = UtilsDB.getConnection()) {
             String sqlQuery = "Select * FROM tasks WHERE executor_id = ?";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setLong(1, executor.getId());
+            ps.setLong(1, userID);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 taskList.add(new Task(
@@ -93,19 +92,20 @@ public class TaskRepository {
         }
     }
 
-    public void addTask(Task task) throws SQLException {
-        // Добавляет нового пользователя
+    public void addTask(String title, String status, String description, String time_end,
+                        Long executor_id, Long author_id, Long project_id) throws SQLException {
+        // Добавляет новую задачу
         try (Connection conn = UtilsDB.getConnection()) {
             String sqlQuery = "INSERT INTO tasks(title,status,description,time_end,executor_id,author_id,project_id) " +
                     "VALUES(?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sqlQuery);
-            ps.setString(1, task.getTitle());
-            ps.setString(2, task.getStatus());
-            ps.setString(3, task.getDescription());
-            ps.setString(4, task.getTime_end());
-            ps.setLong(5, task.getExecutor_id());
-            ps.setLong(6, task.getAuthor_id());
-            ps.setLong(7, task.getProject_id());
+            ps.setString(1, title);
+            ps.setString(2, status);
+            ps.setString(3, description);
+            ps.setString(4, time_end);
+            ps.setLong(5, executor_id);
+            ps.setLong(6, author_id);
+            ps.setLong(7, project_id);
             ps.executeUpdate();
         }
     }

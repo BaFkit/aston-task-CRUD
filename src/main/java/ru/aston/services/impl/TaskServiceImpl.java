@@ -3,8 +3,6 @@ package ru.aston.services.impl;
 import lombok.RequiredArgsConstructor;
 import ru.aston.converters.TaskConverter;
 import ru.aston.dto.TaskDto;
-import ru.aston.entity.Task;
-import ru.aston.entity.User;
 import ru.aston.repositories.TaskRepository;
 import ru.aston.services.TaskService;
 
@@ -25,8 +23,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getTasksByExecutor(User executor) throws SQLException { // Переделать получение по userId
-        return taskRepository.getExecutorTasks(executor).stream()
+    public List<TaskDto> getTasksByExecutorID(Long userID) throws SQLException { // Переделать получение по userId
+        return taskRepository.getExecutorTasks(userID).stream()
                 .map(taskConverter::entityToDto)
                 .toList();
     }
@@ -42,7 +40,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void addTask(Task task) throws SQLException { // // Переделать получение по userId
-        taskRepository.addTask(task);
+    public void addTask(String title, String status, String description, String time_end,
+                        Long executor_id, Long author_id, Long project_id) throws SQLException {
+        taskRepository.addTask(title, status, description, time_end, executor_id, author_id, project_id);
     }
 }
